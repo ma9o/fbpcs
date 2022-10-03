@@ -30,43 +30,31 @@ env:
 jobs:
   ### Build data processing image
   build_data_processing_image:
-    name: Build Image
+    name: Build Data Processing Image
     runs-on: self-hosted
     permissions:
       contents: read
 
     steps:
       - uses: actions/checkout@v2
-      - name: Remove unused images
+      - name: Build Data Processing image
         run: |
-          df -h
-          docker image prune -af
-          df -h
-
-      - name: Build onedocker image
-        run: |
-          ./build-docker.sh onedocker -f
+          ./build-docker.sh data_processing -f
   ### Build emp_games image
   build_emp_games_image:
-    name: Build Image
+    name: Build Emp Games Image
     runs-on: self-hosted
     permissions:
       contents: read
 
     steps:
       - uses: actions/checkout@v2
-      - name: Remove unused images
-        run: |
-          df -h
-          docker image prune -af
-          df -h
-
-      - name: Build onedocker image
+      - name: Build EMP Games image
         run: |
           ./build-docker.sh emp_games -f
   ### Build and publish rc/onedocker image
   build_onedocker_image:
-    name: Build Image
+    name: Build OneDocker Image
     runs-on: self-hosted
     needs: [build_data_processing_image, build_emp_games_image]
     permissions:
@@ -101,6 +89,12 @@ jobs:
         run: |
           docker push --all-tags ${{ env.RC_REGISTRY_IMAGE_NAME }}
 
+  end_to_end_test:
+    name: End to End Test Onedocker Image
+    runs-on: self-hosted
+    needs: build_onedocker_image
+
+    steps:
       - name: Cleanup ECS running tasks and previous running results
         run: |
           ./cleanup.sh
@@ -118,6 +112,12 @@ jobs:
         working-directory: ./fbpcs/tests/github/
 
 
+  publish_onedocker_image:
+    name: Publish OneDocker Image
+    runs-on: self-hosted
+    needs: end_to_end_test
+
+    steps:
       - name: Pull image from rc registry
         run: |
           docker pull ${{ env.RC_REGISTRY_IMAGE_NAME }}:${{ github.sha }}
@@ -135,7 +135,3 @@ jobs:
       - name: Push docker image to prod registry
         run: |
           docker push --all-tags ${{ env.PROD_REGISTRY_IMAGE_NAME }}
-
-      - name: Clean Up Images
-        run: |
-          docker image prune -af
