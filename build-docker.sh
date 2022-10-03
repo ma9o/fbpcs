@@ -28,7 +28,7 @@ package:
 EOF
   exit 1
 }
-FBPCF_DEPENDENCY="emp_games data_processing onedocker"
+FBPCF_DEPENDENCY="emp_games data_processing"
 AVAILABLE_PACKAGES="emp_games data_processing pce_deployment onedocker"
 PACKAGE=$1
 if [[ ! " $AVAILABLE_PACKAGES " =~ $PACKAGE || -z "$PACKAGE" ]]; then
@@ -83,9 +83,9 @@ if [[ " $FBPCF_DEPENDENCY " =~ $PACKAGE ]]; then # Not all packages require fbpc
 fi
 
 # Local Docker Image Dependencies
-if [ "$PACKAGE" = "onedocker" ]; then
- PACKAGE="emp_games data_processing onedocker"
-fi
+# if [ "$PACKAGE" = "onedocker" ]; then
+#  PACKAGE="emp_games data_processing onedocker"
+# fi
 
 # Include optional parameters
 opt_params=()
