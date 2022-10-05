@@ -31,7 +31,7 @@ jobs:
   ### Build data processing image
   build_data_processing_image:
     name: Build Data Processing Image
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     permissions:
       contents: read
 
@@ -43,7 +43,7 @@ jobs:
   ### Build emp_games image
   build_emp_games_image:
     name: Build Emp Games Image
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     permissions:
       contents: read
 
@@ -55,7 +55,7 @@ jobs:
   ### Build and publish rc/onedocker image
   build_onedocker_image:
     name: Build OneDocker Image
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     needs: [build_data_processing_image, build_emp_games_image]
     permissions:
       contents: read
