@@ -44,13 +44,15 @@ TAG="latest"
 FORCE_EXTERNAL=false
 USE_GCP=false
 PLATFORM=""
-while getopts "u,f,g,t:,p:" o; do
+SPECIFY_OUTPUT=false
+while getopts "u,f,g,o,t:,p:" o; do
   case $o in
     (u) OS_VARIANT="ubuntu"
         OS_RELEASE=${UBUNTU_RELEASE}
         DOCKER_EXTENSION=".ubuntu";;
     (f) FORCE_EXTERNAL=true;;
     (g) USE_GCP=true;;
+    (o) SPECIFY_OUTPUT=true;;
     (t) TAG=$OPTARG;;
     (p) PLATFORM=$OPTARG;;
     (*) usage
@@ -98,6 +100,9 @@ for P in $PACKAGE; do
   if [[ "$P" == "pce_deployment" && "$USE_GCP" == true ]]; then
       DOCKER_PACKAGE="$DOCKER_PACKAGE-gcp"
       P="$P/gcp"
+  fi
+  if [[ "$SPECIFY_OUTPUT" == true ]]; then
+    opt_params+=(--output type=tar,dest=/tmp/"$PACKAGE".tar)
   fi
 
   printf "\nBuilding %s %s docker image...\n" "${P}" "${OS_VARIANT}"

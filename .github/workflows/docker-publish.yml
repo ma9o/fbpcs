@@ -39,7 +39,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Data Processing image
         run: |
-          ./build-docker.sh data_processing -f
+          ./build-docker.sh data_processing -f -o
+      - uses: actions/upload-artifact@v3
+        with:
+          name: data_processing_image
+          path: /tmp/data_processing.tar
   ### Build emp_games image
   build_emp_games_image:
     name: Build Emp Games Image
@@ -51,7 +55,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build EMP Games image
         run: |
-          ./build-docker.sh emp_games -f
+          ./build-docker.sh emp_games -f -o
+      - uses: actions/upload-artifact@v3
+        with:
+          name: emp_games_image
+          path: /tmp/emp_games.tar
   ### Build and publish rc/onedocker image
   build_onedocker_image:
     name: Build OneDocker Image
@@ -62,6 +70,20 @@ jobs:
       packages: write
 
     steps:
+      - name: Download Data Processing Image
+        uses: actions/download-artifact@v3
+        with:
+          name: data_processing_image
+
+      - name: Download MPC Games Image
+        uses: actions/download-artifact@v3
+        with:
+          name: emp_games_image
+
+      - name: Load Images
+        run: |
+          docker load --input data_processing_image/data_processing.tar && docker load --input emp_games_image/emp_games.tar
+
       - uses: actions/checkout@v2
       - name: Print Tracker Hash
         run: echo ${{ github.event.inputs.tracker_hash }}
