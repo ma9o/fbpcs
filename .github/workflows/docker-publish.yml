@@ -40,6 +40,10 @@ jobs:
       - name: Build Data Processing image
         run: |
           ./build-docker.sh data_processing -f -o
+      - name: DEBUG - List tmp directory
+        run: ls /tmp
+      - name: DEBUG - List current directory
+        run: ls
       - uses: actions/upload-artifact@v3
         with:
           name: data_processing_image
