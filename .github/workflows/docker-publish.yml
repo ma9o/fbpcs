@@ -47,7 +47,8 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: data_processing_image
-          path: /tmp/data_processing.tar
+          path: data_processing.tar
+
   ### Build emp_games image
   build_emp_games_image:
     name: Build Emp Games Image
@@ -63,7 +64,8 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: emp_games_image
-          path: /tmp/emp_games.tar
+          path: emp_games.tar
+
   ### Build and publish rc/onedocker image
   build_onedocker_image:
     name: Build OneDocker Image

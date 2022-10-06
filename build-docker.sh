@@ -102,7 +102,7 @@ for P in $PACKAGE; do
       P="$P/gcp"
   fi
   if [[ "$SPECIFY_OUTPUT" == true ]]; then
-    opt_params+=(--output type=tar,dest=/tmp/"$PACKAGE".tar)
+    opt_params+=(--output type=tar,dest="$PACKAGE".tar)
   fi
 
   printf "\nBuilding %s %s docker image...\n" "${P}" "${OS_VARIANT}"
