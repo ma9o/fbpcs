@@ -32,35 +32,53 @@ jobs:
   build_data_processing_image:
     name: Build Data Processing Image
     runs-on: ubuntu-20.04
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
       - name: Build Data Processing image
         run: |
           ./build-docker.sh data_processing -f -o
+
       - name: DEBUG - List tmp directory
         run: ls /tmp
+
       - name: DEBUG - List current directory
         run: ls
+
       - uses: actions/upload-artifact@v3
         with:
           name: data_processing_image
           path: data_processing.tar
+          if-no-files-found: error
 
   ### Build emp_games image
   build_emp_games_image:
     name: Build Emp Games Image
     runs-on: ubuntu-20.04
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
       - name: Build EMP Games image
         run: |
           ./build-docker.sh emp_games -f -o
+
       - uses: actions/upload-artifact@v3
         with:
           name: emp_games_image
           path: emp_games.tar
+          if-no-files-found: error
 
   ### Build and publish rc/onedocker image
   build_onedocker_image:
@@ -87,6 +105,10 @@ jobs:
           docker load --input data_processing_image/data_processing.tar && docker load --input emp_games_image/emp_games.tar
 
       - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
       - name: Print Tracker Hash
         run: echo ${{ github.event.inputs.tracker_hash }}
 

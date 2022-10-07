@@ -106,7 +106,7 @@ for P in $PACKAGE; do
   fi
 
   printf "\nBuilding %s %s docker image...\n" "${P}" "${OS_VARIANT}"
-  docker build  \
+  docker buildx build  \
     --build-arg tag="${TAG}" \
     --build-arg os_release="${OS_RELEASE}" \
     --build-arg fbpcf_image="${FBPCF_IMAGE}" \
