@@ -45,12 +45,6 @@ jobs:
         run: |
           ./build-docker.sh data_processing -f -o
 
-      - name: DEBUG - List tmp directory
-        run: ls /tmp
-
-      - name: DEBUG - List current directory
-        run: ls
-
       - uses: actions/upload-artifact@v3
         with:
           name: data_processing_image
@@ -100,9 +94,12 @@ jobs:
         with:
           name: emp_games_image
 
+      - name: DEBUG - List current directory
+        run: ls
+
       - name: Load Images
         run: |
-          docker load --input data_processing_image/data_processing.tar && docker load --input emp_games_image/emp_games.tar
+          docker load --input data_processing.tar && docker load --input emp_games.tar
 
       - uses: actions/checkout@v2
 
