@@ -41,6 +41,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-data-processing-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-data-processing
+
       - name: Build Data Processing image
         run: |
           ./build-docker.sh data_processing -f -o
@@ -63,6 +71,14 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-emp-games-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-emp-games
 
       - name: Build EMP Games image
         run: |
@@ -105,6 +121,14 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-onedocker-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-onedocker
 
       - name: Print Tracker Hash
         run: echo ${{ github.event.inputs.tracker_hash }}
