@@ -51,6 +51,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-data-processing
 
+      - name: Pull FBPCF Image
+        run: docker pull ghcr.io/facebookresearch/fbpcf/ubuntu:{{ $env.FBPCF_VERSION }}
+
       - name: Build Data Processing image
         uses: docker/build-push-action@v2
         with:
@@ -97,6 +100,9 @@ jobs:
           key: ${{ runner.os }}-emp-games-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-emp-games
+
+      - name: Pull FBPCF Image
+        run: docker pull ghcr.io/facebookresearch/fbpcf/ubuntu:{{ $env.FBPCF_VERSION }}
 
       - name: Build EMP Games image
         uses: docker/build-push-action@v2
