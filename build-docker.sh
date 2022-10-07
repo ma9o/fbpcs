@@ -23,6 +23,7 @@ package:
 -u: builds the docker images against ubuntu (default)
 -f: force use of latest fbpcf from ghcr.io/facebookresearch
 -g Only used for the pce_deployment package to build the GCP docker image instead of the AWS image
+-o Output the image created to a tar file.
 -t TAG: tags the image with the given tag (default: latest)
 -p PLATFORM: builds the image to target the given platform (default depends on local system) - requires Docker Engine API 1.40+
 EOF
