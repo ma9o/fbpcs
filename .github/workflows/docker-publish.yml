@@ -115,7 +115,7 @@ jobs:
 
       - name: Load Images
         run: |
-          mkdir -p /var/lib/docker/tmp && docker load --input data_processing.tar && docker load --input emp_games.tar
+          docker load --input data_processing.tar && docker load --input emp_games.tar
 
       - uses: actions/checkout@v2
 
@@ -135,7 +135,7 @@ jobs:
 
       - name: Build onedocker image in rc
         run: |
-          ./build-docker.sh onedocker -t ${{github.event.inputs.new_tag}} -f
+          ./build-docker.sh onedocker -t ${{github.event.inputs.new_tag}}
 
       - name: Log into registry ${{ env.REGISTRY }}
         uses: docker/login-action@v1
