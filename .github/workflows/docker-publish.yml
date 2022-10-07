@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       name:
+        required: true
         description: 'Manually running this workflow will skip "Check New Commits" step and build image directly'
         default: "Run"
       new_tag:
@@ -57,10 +58,10 @@ jobs:
           file: docker/data_processing/Dockerfile.ubuntu
           push: false
           tags: fbpcs/data_processing:latest
-          build-args:
-            - tag=latest
-            - os_release=20.04
-            - fbpcf_image=${{ env.FBPCF_VERSION }}
+          build-args: |
+            tag=latest
+            os_release=20.04
+            fbpcf_image=${{ env.FBPCF_VERSION }}
           outputs: type=docker,dest=data_processing.tar
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -104,10 +105,10 @@ jobs:
           file: docker/emp_games/Dockerfile.ubuntu
           push: false
           tags: fbpcs/emp_games:latest
-          build-args:
-            - tag=latest
-            - os_release=20.04
-            - fbpcf_image=${{ env.FBPCF_VERSION }}
+          build-args: |
+            tag=latest
+            os_release=20.04
+            fbpcf_image=${{ env.FBPCF_VERSION }}
           outputs: type=docker,dest=emp_games.tar
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -178,15 +179,15 @@ jobs:
         with:
           context: .
           file: docker/onedocker/Dockerfile.ubuntu
-          tags:
-            - fbpcs/onedocker:latest
-            - ${{ env.RC_REGISTRY_IMAGE_NAME }}:${{ github.sha }}
-            - ${{ env.RC_REGISTRY_IMAGE_NAME }}:${{github.event.inputs.new_tag}}
-            - ${{ env.RC_REGISTRY_IMAGE_NAME }}:rc
+          tags: |
+            fbpcs/onedocker:latest
+            ${{ env.RC_REGISTRY_IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.RC_REGISTRY_IMAGE_NAME }}:${{github.event.inputs.new_tag}}
+            ${{ env.RC_REGISTRY_IMAGE_NAME }}:rc
           push: false
-          build-args:
-            - tag=latest
-            - os_release=20.04
+          build-args: |
+            tag=latest
+            os_release=20.04
           outputs: type=docker,dest=onedocker.tar
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
