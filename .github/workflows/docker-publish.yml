@@ -32,8 +32,6 @@ jobs:
   build_data_processing_image:
     name: Build Data Processing Image
     runs-on: ubuntu-20.04
-    permissions:
-      contents: read|write
 
     steps:
       - uses: actions/checkout@v2
@@ -53,8 +51,6 @@ jobs:
   build_emp_games_image:
     name: Build Emp Games Image
     runs-on: ubuntu-20.04
-    permissions:
-      contents: read|write
 
     steps:
       - uses: actions/checkout@v2
