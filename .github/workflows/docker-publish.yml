@@ -64,7 +64,7 @@ jobs:
           build-args: |
             tag=latest
             os_release=20.04
-            fbpcf_image=${{ env.FBPCF_VERSION }}
+            fbpcf_image=ghcr.io/facebookresearch/fbpcf/ubuntu:${{ env.FBPCF_VERSION }}
           outputs: type=docker,dest=data_processing.tar
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -114,7 +114,7 @@ jobs:
           build-args: |
             tag=latest
             os_release=20.04
-            fbpcf_image=${{ env.FBPCF_VERSION }}
+            fbpcf_image=ghcr.io/facebookresearch/fbpcf/ubuntu:${{ env.FBPCF_VERSION }}
           outputs: type=docker,dest=emp_games.tar
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
