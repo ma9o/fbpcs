@@ -157,6 +157,9 @@ jobs:
         run: |
           docker load --input data_processing.tar && docker load --input emp_games.tar
 
+      - name: DEBUG - Print images
+        run: docker image ls
+
       - uses: actions/checkout@v2
 
       - name: Set up Docker Buildx
