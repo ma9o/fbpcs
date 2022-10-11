@@ -72,7 +72,7 @@ jobs:
 
   e2e_test:
     name: Run End to End Tests
-    runs-on: self-hosted
+    runs-on: [self-hosted, fbpcs-e2e-test-runner]
     needs: build_image
     permissions:
       contents: read
