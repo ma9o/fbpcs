@@ -82,11 +82,6 @@ jobs:
       - name: Print Tracker Hash
         run: echo ${{ github.event.inputs.tracker_hash }}
 
-      - name: Cleanup ECS running tasks and previous running results
-        run: |
-          ./cleanup.sh
-        working-directory: ./fbpcs/tests/github/
-
       - name: Pull coordinator image
         run: |
           docker pull ${{ env.COORDINATOR_IMAGE }}:${{ github.event.inputs.new_tag }}
