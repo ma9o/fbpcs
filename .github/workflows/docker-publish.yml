@@ -84,7 +84,7 @@ jobs:
 
       - name: Pull coordinator image
         run: |
-          docker pull ${{ env.COORDINATOR_IMAGE }}:${{ github.event.inputs.new_tag }}
+          docker pull ${{ env.COORDINATOR_IMAGE }}:latest-build
 
       ### Private Lift and Attribution E2E tests
       - name: End to end testing
@@ -118,3 +118,11 @@ jobs:
       - name: Push docker image to prod registry
         run: |
           docker push --all-tags ${{ env.PROD_REGISTRY_IMAGE_NAME }}
+
+      - name: Clean up docker images
+        run: |
+          docker image rm -f ${{ env.COORDINATOR_IMAGE }}:${{ github.event.inputs.new_tag }} \
+          ${{ env.RC_REGISTRY_IMAGE_NAME }}:${{ github.sha }} \
+          ${{ env.PROD_REGISTRY_IMAGE_NAME }}:${{ github.sha }} \
+          ${{ env.PROD_REGISTRY_IMAGE_NAME }}:${{github.event.inputs.new_tag}} \
+          ${{ env.PROD_REGISTRY_IMAGE_NAME }}:${{ steps.vars.outputs.ref }}
