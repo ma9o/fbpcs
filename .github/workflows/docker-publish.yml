@@ -27,7 +27,7 @@ env:
   PA_CONTAINER_NAME: e2e_pa_container
   TIME_RANGE: 24 hours
   FBPCF_VERSION: 2.1.73
-  PID_VERSION: 0.0.3
+  PID_VERSION: 0.0.4
 
 jobs:
   ### Build and publish rc/onedocker image
